@@ -32,8 +32,6 @@ for _, strategy in helpers.each_strategy() do
       -- insert single fixture Service
       service_fixture = bp.services:insert()
 
-      local db_update_propagation = strategy == "cassandra" and 0.1 or 0
-
       assert(helpers.start_kong {
         log_level             = "debug",
         prefix                = "servroot1",
@@ -41,7 +39,6 @@ for _, strategy in helpers.each_strategy() do
         proxy_listen          = "0.0.0.0:8000, 0.0.0.0:8443 ssl",
         admin_listen          = "0.0.0.0:8001",
         db_update_frequency   = POLL_INTERVAL,
-        db_update_propagation = db_update_propagation,
         nginx_conf            = "spec/fixtures/custom_nginx.template",
       })
 
@@ -52,7 +49,6 @@ for _, strategy in helpers.each_strategy() do
         proxy_listen          = "0.0.0.0:9000, 0.0.0.0:9443 ssl",
         admin_listen          = "0.0.0.0:9001",
         db_update_frequency   = POLL_INTERVAL,
-        db_update_propagation = db_update_propagation,
       })
 
       admin_client_1 = helpers.http_client("127.0.0.1", 8001)
@@ -61,7 +57,7 @@ for _, strategy in helpers.each_strategy() do
       proxy_client_2 = helpers.http_client("127.0.0.1", 9000)
 
       wait_for_propagation = function()
-        ngx.sleep(POLL_INTERVAL * 2 + db_update_propagation * 2)
+        ngx.sleep(POLL_INTERVAL * 2)
       end
     end)
 

@@ -556,6 +556,22 @@
                                  # single query.
 
 #------------------------------------------------------------------------------
+# TUNING & BEHAVIOR
+#------------------------------------------------------------------------------
+
+router_rebuild_timeout = 0       # Defines, in milliseconds, how long request
+                                 # handler should wait for a new router to be
+                                 # built. If a new router is not ready during
+                                 # the timeout period, old router is given for
+                                 # the request. If you set this value to a
+                                 # negative number, the stale router is never
+                                 # rebuilt during the request, but only by a
+                                 # worker background timer. Timeouts greater
+                                 # than 0 will result request handler building
+                                 # a router synchronously, if the background
+                                 # timer didn't pick it up first.
+
+#------------------------------------------------------------------------------
 # DEVELOPMENT & MISCELLANEOUS
 #------------------------------------------------------------------------------
 

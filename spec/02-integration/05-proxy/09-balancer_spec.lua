@@ -1399,8 +1399,8 @@ for _, strategy in helpers.each_strategy() do
             assert.are.equal(0, fails)
           end)
 
-          local stream_it = (mode == "ipv6") and pending or it
-          stream_it("perform passive health checks -- #stream connection failure", function()
+          --local stream_it = (mode == "ipv6") and pending or it
+          pending("perform passive health checks -- #stream connection failure", function()
 
             -- configure healthchecks
             local upstream_name = add_upstream({
